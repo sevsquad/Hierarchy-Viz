@@ -5,6 +5,44 @@ import sys
 import traceback
 import os
 
+class CreateToolTip:
+    """
+    Create a tooltip for a given widget.
+    """
+    def __init__(self, widget, text='widget info'):
+        self.widget = widget
+        self.text = text
+        self.widget.bind("<Enter>", self.enter)
+        self.widget.bind("<Leave>", self.leave)
+        self.top = None
+
+    def enter(self, event=None):
+        x = y = 0
+        # get widget coordinates
+        x, y, _, _ = self.widget.bbox("insert")
+        x += self.widget.winfo_rootx() + 25
+        y += self.widget.winfo_rooty() + 20
+        # create a toplevel window
+        self.top = tk.Toplevel(self.widget)
+        # leave only the label and remove the app window
+        self.top.wm_overrideredirect(True)
+        self.top.wm_geometry("+%d+%d" % (x, y))
+        label = tk.Label(
+            self.top,
+            text=self.text,
+            justify='left',
+            background="#ffffe0",
+            relief='solid',
+            borderwidth=1,
+            font=("tahoma", "8", "normal")
+        )
+        label.pack(ipadx=1)
+
+    def leave(self, event=None):
+        if self.top:
+            self.top.destroy()
+        self.top = None
+
 class OrgHierarchyApp:
     def __init__(self, root):
         self.root = root
