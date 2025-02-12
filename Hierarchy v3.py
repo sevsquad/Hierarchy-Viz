@@ -59,10 +59,14 @@ class OrgHierarchyApp:
 
         self.export_button = ttk.Button(self.details_frame, text="Export PDF", command=self.export_pdf)
         self.export_button.grid(row=5, column=0, columnspan=2, pady=5, sticky=tk.EW)
+        CreateToolTip(self.import_button, 
+            text='Export text to visualization in PDF format')
 
         # Create Import TXT button
         self.import_button = ttk.Button(self.details_frame, text="Import TXT", command=self.import_txt)
         self.import_button.grid(row=6, column=0, columnspan=2, pady=5, sticky=tk.EW)
+        CreateToolTip(self.import_button, 
+            text='Import TXT hierarchy, parses lines for [Name], Superior: [Name] to construct hierarchy')
 
         # Create buttons for moving nodes
         self.set_move_button = ttk.Button(self.details_frame, text="Set as Move Node", command=self.set_move_node)
